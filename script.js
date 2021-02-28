@@ -53,17 +53,17 @@ function fireLaser() {
 }
 
 function createLaserElement() {
-  let xPosition = parseInt(
+  let xShipPosition = parseInt(
     window.getComputedStyle(playerShip).getPropertyValue("left")
   );
-  let yPosition = parseInt(
+  let yShipPosition = parseInt(
     window.getComputedStyle(playerShip).getPropertyValue("top")
   );
   let newLaser = document.createElement("img");
   newLaser.src = "img/shoot.png";
   newLaser.classList.add("laser");
-  newLaser.style.left = `${xPosition}px`;
-  newLaser.style.top = `${yPosition - 10}px`;
+  newLaser.style.left = `${xShipPosition}px`;
+  newLaser.style.top = `${yShipPosition - 10}px`;
   return newLaser;
 }
 
@@ -80,7 +80,7 @@ function moveLaser(laser) {
       }
     });
 
-    if (xPosition === 340) {
+    if (xPosition >= 440) {
       laser.remove();
     } else {
       laser.style.left = `${xPosition + 8}px`;
@@ -128,14 +128,12 @@ function checkLaserCollision(laser, alien) {
   return (
     laserLeft != 340 &&
     laserLeft + 40 >= alienLeft &&
-    laserTop <= alienTop &&
-    laserTop >= alienBottom
+    alienTop >= laserTop &&
+    alienBottom <= laserTop
   );
 }
 
-startButton.addEventListener("click", (event) => {
-  playGame();
-});
+startButton.addEventListener("click", playGame);
 
 function playGame() {
   startButton.style.display = "none";
@@ -143,20 +141,21 @@ function playGame() {
   window.addEventListener("keydown", flyShip);
   alienInterval = setInterval(() => {
     createAliens();
-  }, 4000);
+  }, 3000);
 }
 
 function gameOver() {
   window.removeEventListener("keydown", flyShip);
+
   clearInterval(alienInterval);
   let aliens = document.querySelectorAll(".alien");
   aliens.forEach((alien) => alien.remove());
+
   let lasers = document.querySelectorAll(".laser");
   lasers.forEach((laser) => laser.remove());
-  setTimeout(() => {
-    alert("game over!");
-    playerShip.style.top = "250px";
-    startButton.style.display = "block";
-    instructionsText.style.display = "block";
-  });
+
+  alert("game over!");
+  playerShip.style.top = "250px";
+  startButton.style.display = "block";
+  instructionsText.style.display = "block";
 }
