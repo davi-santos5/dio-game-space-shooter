@@ -17,6 +17,7 @@ const modalCloseBtn = document.querySelector(".modal-close");
 const modalScore = document.querySelector(".modal-score");
 const modalRestart = document.querySelector(".restart");
 
+let backgroundPosition = 0;
 let alienInterval;
 let currentScore = 0;
 let speed = 1;
@@ -76,7 +77,6 @@ function fireLaser() {
   let laser = createLaserElement();
   playArea.appendChild(laser);
   moveLaser(laser);
-  console.log(laser.style.left);
 }
 
 function createLaserElement() {
@@ -127,7 +127,6 @@ function createAliens() {
   newAlien.classList.add("alien");
   newAlien.classList.add("alien-transition");
   newAlien.style.left = `${Math.floor(Math.random() * 480)}px`;
-  console.log(newAlien.style.left);
   newAlien.style.top = "-30px";
   playArea.appendChild(newAlien);
   moveAlien(newAlien);
@@ -176,7 +175,15 @@ function playGame() {
   window.addEventListener("keydown", flyShip);
   alienInterval = setInterval(() => {
     createAliens();
-  }, 2500 / speed);
+  }, 3000 - currentScore);
+  moveBackground();
+}
+
+function moveBackground() {
+  setInterval(() => {
+    backgroundPosition++;
+    playArea.style.backgroundPositionY = `${backgroundPosition}px`;
+  }, 50);
 }
 
 function gameOver() {
