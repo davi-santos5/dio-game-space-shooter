@@ -2,16 +2,22 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: sans-serif;
+  font-family: "Press Start 2P", cursive;
 }
 
 body {
   height: 100vh;
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: cornflowerblue;
+  background-color: #101025;
+}
+
+h1 {
+  margin-bottom: 10px;
+  color: white;
 }
 
 #main-play-area {
@@ -21,21 +27,39 @@ body {
   width: 600px;
   overflow: hidden;
   position: relative;
+  box-shadow: 0px 20px 100px 10px #000;
 }
 
 .game-instructions {
-  position: relative;
+  max-width: 80%;
+  margin: 0 auto;
+  text-align: center;
   color: white;
-  left: 7rem;
-  top: 0px;
 }
 
 .start-button {
-  position: relative;
+  width: 100%;
+  margin-top: 200px;
+
+  background: transparent;
+  border: none;
+  outline: none;
+
   color: white;
-  top: 9rem;
-  left: 15rem;
+  font-size: 26px;
+}
+
+.start-button:hover {
   cursor: pointer;
+  opacity: 0.9;
+  transform: scale(0.95);
+}
+
+.score {
+  display: none;
+  padding: 5px;
+  font-size: 14px;
+  color: white;
 }
 
 .player-shooter {

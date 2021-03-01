@@ -1,3 +1,8 @@
+const instructionsText = document.querySelector(".game-instructions");
+const startButton = document.querySelector(".start-button");
+
+const score = document.querySelector(".score");
+const scorePoints = document.querySelector(".score-points");
 const playerShip = document.querySelector(".player-shooter");
 const playArea = document.querySelector("#main-play-area");
 const aliensImg = [
@@ -5,9 +10,30 @@ const aliensImg = [
   "img/monster-2.png",
   "img/monster-3.png",
 ];
-const instructionsText = document.querySelector(".game-instructions");
-const startButton = document.querySelector(".start-button");
+
+const modalWrapper = document.querySelector(".modal-wrapper");
+const modal = modalWrapper.querySelector(".modal");
+const modalCloseBtn = document.querySelector(".modal-close");
+const modalScore = document.querySelector(".modal-score");
+const modalRestart = document.querySelector(".restart");
+
 let alienInterval;
+let currentScore = 0;
+let speed = 1;
+
+const modalShow = () => {
+  modalWrapper.classList.add("show");
+};
+
+const modalClose = () => {
+  modalWrapper.classList.remove("show");
+};
+
+modalWrapper.onclick = (event) =>
+  event.target.className === "modal-wrapper show" && modalClose();
+
+modalCloseBtn.onclick = () => modalClose();
+modalRestart.onclick = () => modalClose();
 
 function flyShip(event) {
   if (event.key === "ArrowLeft") {
@@ -78,6 +104,11 @@ function moveLaser(laser) {
         alien.src = "img/explosion.png";
         alien.classList.remove("alien");
         alien.classList.add("dead-alien");
+
+        currentScore += 10;
+        scorePoints.innerHTML = currentScore;
+
+        speed <= 5 && speed++;
       }
     });
 
@@ -114,7 +145,7 @@ function moveAlien(alien) {
         gameOver();
       }
     } else {
-      alien.style.top = `${yPosition + 2}px`;
+      alien.style.top = `${yPosition + speed}px`;
     }
   }, 30);
 }
@@ -141,10 +172,11 @@ startButton.addEventListener("click", playGame);
 function playGame() {
   startButton.style.display = "none";
   instructionsText.style.display = "none";
+  score.style.display = "block";
   window.addEventListener("keydown", flyShip);
   alienInterval = setInterval(() => {
     createAliens();
-  }, 3000);
+  }, 2500 / speed);
 }
 
 function gameOver() {
@@ -157,7 +189,9 @@ function gameOver() {
   let lasers = document.querySelectorAll(".laser");
   lasers.forEach((laser) => laser.remove());
 
-  alert("game over!");
+  modalScore.innerText = `Score: ${currentScore}`;
+
+  modalShow();
   playerShip.style.left = "265px";
   startButton.style.display = "block";
   instructionsText.style.display = "block";
