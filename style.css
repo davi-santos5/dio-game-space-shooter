@@ -19,7 +19,8 @@ body {
   background-image: url(img/space.png);
   height: 600px;
   width: 600px;
-  overflow-x: hidden;
+  overflow: hidden;
+  position: relative;
 }
 
 .game-instructions {
@@ -41,20 +42,21 @@ body {
   position: relative;
   height: 60px;
   width: 70px;
-  left: 20px;
-  top: 250px;
+  left: 265px;
+  top: 530px;
 }
 
 .laser {
-  position: relative;
+  position: absolute;
   width: 40px;
   height: 30px;
+  transform: rotate(90deg);
 }
 
 .alien {
   height: 60px;
   width: 70px;
-  position: relative;
+  position: absolute;
 }
 
 .alien-transition {
@@ -65,6 +67,6 @@ body {
 .dead-alien {
   height: 60px;
   width: 70px;
-  position: relative;
+  position: absolute;
   opacity: 0;
 }
