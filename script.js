@@ -1,4 +1,4 @@
-const instructionsText = document.querySelector(".game-instructions");
+const instructionsText = document.querySelectorAll(".game-instructions");
 const startButton = document.querySelector(".start-button");
 
 const score = document.querySelector(".score");
@@ -17,8 +17,9 @@ const modalCloseBtn = document.querySelector(".modal-close");
 const modalScore = document.querySelector(".modal-score");
 const modalRestart = document.querySelector(".restart");
 
-let backgroundPosition = 0;
 let alienInterval;
+let backgroundInterval;
+let backgroundPosition = 0;
 let currentScore = 0;
 let speed = 1;
 
@@ -27,6 +28,8 @@ const modalShow = () => {
 };
 
 const modalClose = () => {
+  currentScore = 0;
+  scorePoints.innerHTML = currentScore;
   modalWrapper.classList.remove("show");
 };
 
@@ -170,7 +173,9 @@ startButton.addEventListener("click", playGame);
 
 function playGame() {
   startButton.style.display = "none";
-  instructionsText.style.display = "none";
+  instructionsText.forEach(
+    (instructions) => (instructions.style.display = "none")
+  );
   score.style.display = "block";
   window.addEventListener("keydown", flyShip);
   alienInterval = setInterval(() => {
@@ -180,7 +185,7 @@ function playGame() {
 }
 
 function moveBackground() {
-  setInterval(() => {
+  backgroundInterval = setInterval(() => {
     backgroundPosition++;
     playArea.style.backgroundPositionY = `${backgroundPosition}px`;
   }, 50);
@@ -196,10 +201,14 @@ function gameOver() {
   let lasers = document.querySelectorAll(".laser");
   lasers.forEach((laser) => laser.remove());
 
+  clearInterval(backgroundInterval);
+
   modalScore.innerText = `Score: ${currentScore}`;
 
   modalShow();
   playerShip.style.left = "265px";
   startButton.style.display = "block";
-  instructionsText.style.display = "block";
+  instructionsText.forEach(
+    (instructions) => (instructions.style.display = "block")
+  );
 }
